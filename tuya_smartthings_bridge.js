@@ -70,7 +70,7 @@ function processDeviceCommand(request, response) {
     var deviceID = request.headers["tuyapi-devid"]
     var localKey = request.headers["tuyapi-localkey"]
     var command =  request.headers["tuyapi-command"]
-        var dps = request.headers["dps"]
+    var dps = request.headers["dps"]
 
     var respMsg = "deviceCommand sending to IP: " + deviceIP + " Command: " + command
     console.log(respMsg)
@@ -88,7 +88,7 @@ function processDeviceCommand(request, response) {
 
                 tuya.set({set: false, 'dps': dps}).then(result => {
                     console.log('Result of setting status to ' + false + ': ' + result);
-                    response.setHeader("cmd-response", !status );
+                    response.setHeader("cmd-response", status );
                     response.setHeader("onoff", "off");
                     console.log("Status (" + status + ") sent to SmartThings.");
                     response.end();
@@ -104,7 +104,7 @@ function processDeviceCommand(request, response) {
                     console.log('Result of setting status to ' + true + ': ' + result);
                     response.setHeader("cmd-response", !status );
                     response.setHeader("onoff", "on");
-                    console.log("Status (" + status + ") sent to SmartThings.");
+                    console.log("Status (" + !status + ") sent to SmartThings.");
                     response.end();
                 });
              });
@@ -113,8 +113,10 @@ function processDeviceCommand(request, response) {
         case "status":
             tuya.get({'dps': dps}).then(status => {
                 console.log('Status: ' + status);
-                response.setHeader("cmd-response", status );
-                response.setHeader("onoff", "on");
+                var strStatus = "off";
+                if( status )
+                    strStatus = "on"
+                response.setHeader("cmd-response", strStatus );
                 console.log("Status (" + status + ") sent to SmartThings.");
                 response.end();
             });
@@ -125,7 +127,6 @@ function processDeviceCommand(request, response) {
 	        break;
     
     }      
-    tuya.destroy();
 }
 
 //----- Utility - Response Logging Function ------------------------
