@@ -16,7 +16,10 @@ Currently functional smartthings device handler and node.js script for TuyAPI su
 Tuya/Smart Life
 
 https://github.com/codetheweb/tuyapi
+
 https://github.com/clach04/python-tuya
+
 https://github.com/cwwilson08/TuyaHubitat
+
 https://github.com/blawson327/TuyaSmartthings
 
